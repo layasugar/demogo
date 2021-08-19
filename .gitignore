@@ -1,0 +1,11 @@
+/.idea
+/*.exe
+/*.log
+/config/app.local.ini
+/logs
+/log
+vendor/*
+vendor
+cpu.prof
+mem.prof
+.DS_Store
