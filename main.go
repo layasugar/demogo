@@ -13,7 +13,19 @@ func main() {
 	//var a = make(map[string]bool)
 	//
 	//a["ss"] = true
+	var a = byte(10)
+
+	log.Print(string(a))
 	MainKafka()
+}
+func Get4096ByteNbsp() []byte {
+	var byte4096 = make([]byte, 0, 4096)
+
+	for i := 0; i < 512; i++ {
+		byte4096 = append(byte4096, 32, 32, 32, 32, 32, 32, 32, 32)
+	}
+	copy(byte4096, []byte("\r\n"))
+	return byte4096
 }
 
 func getSessionNo(payType string, userId int64) string {
