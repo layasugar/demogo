@@ -53,7 +53,7 @@ func consumerChan2() {
 }
 
 func producerChan1() {
-	for i := 0; i < 100000; i++ {
+	for i := 0; i < 100; i++ {
 		time.Sleep(200 * time.Millisecond)
 		Chan1 <- i
 	}
