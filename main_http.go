@@ -15,13 +15,13 @@ func MainHttpPostJsonWithHeader() {
 	var client = &http.Client{}
 
 	// 请求地址
-	var url = "http://restapi3.apiary.io/notes"
+	var urlStr = "http://restapi3.apiary.io/notes"
 
 	// 请求数据
 	var jsonStr = []byte(`{"title":"Buy cheese and bread for breakfast."}`)
 
 	// 初始化一个请求
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest("POST", urlStr, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		fmt.Print(err)
 	}
