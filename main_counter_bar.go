@@ -3,30 +3,32 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"sync"
 	"time"
 )
 
 func MainCounterBar() {
-	// 总重建行数
-	var count int64 = 10
-	// 计数器
-	var counter = make(chan int64)
-	// 当前已重建的数据行数
-	var current int64
+	var d = make(chan int64)
+	go ProgressBar(d, 2000)
 
+	var wg sync.WaitGroup
+	wg.Add(2)
 	go func() {
-		for n := range counter {
-			str := bar(n, count, 50)
-			fmt.Printf("\r%s", str)
+		defer wg.Done()
+		for i := 0; i < 100; i++ {
+			d <- 10
+			time.Sleep(time.Millisecond * 200)
 		}
 	}()
 
-	for i := 1; i <= 10; i++ {
-		current = int64(i)
-		counter <- current
-		time.Sleep(time.Second)
-	}
-	close(counter)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 100; i++ {
+			d <- 10
+			time.Sleep(time.Millisecond * 400)
+		}
+	}()
+	wg.Wait()
 }
 
 func bar(current, count int64, l ...int64) string {
@@ -68,4 +70,14 @@ func bar(current, count int64, l ...int64) string {
 		}
 	}
 	return "[" + str + "] " + strconv.Itoa(int(percent)) + "%"
+}
+
+// ProgressBar 打印进度条
+func ProgressBar(c chan int64, count int64) {
+	var current int64
+	for number := range c {
+		current += number
+		str := bar(current, count, 50)
+		fmt.Printf("\r%s %d/%d", str, current, count)
+	}
 }
